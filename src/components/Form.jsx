@@ -47,13 +47,13 @@ function Form() {
           {services.map((service, idx) => {
             return (
               <label key={service + idx} className="flex items-center gap-1 cursor-pointer">
-                <input type="checkbox" name={service} className="size-6 cursor-pointer" />
+                <input type="checkbox" name={service} className="size-6 cursor-pointer checked:accent-lime-400 checked:accent-shadow-black" />
                 {service}
               </label>
             );
           })}
         </section>
-        <button className="bg-zinc-50 p-2 rounded-lg md:bg-lime-400">Submit</button>
+        <button className="justify-center gap-2 bg-stone-950 rounded-lg p-2 text-white">Lets Get Started</button>
       </form>
     </>
   );
