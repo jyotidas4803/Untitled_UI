@@ -1,9 +1,5 @@
-import React from 'react'
-
 function Form() {
-  return (
-    <div>Form</div>
-  )
+  return <form action="">Form Component</form>;
 }
 
-export default Form
+export default Form;

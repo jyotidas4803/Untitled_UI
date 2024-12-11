@@ -1,11 +1,10 @@
-import React from 'react'
-
 function Header() {
   return (
-    <div>
-      <h1 className='text-3xl font-bold hover:text-blue-500 cursor-pointer'>Untitled-UI</h1>
-    </div>
-  )
+    <header className="mb-8 flex items-center gap-2">
+      <img src="favicon.png" alt="Untitled UI" className="w-10" />
+      <p className="font-semibold">Untitled Contact Form</p>
+    </header>
+  );
 }
 
-export default Header
+export default Header;
