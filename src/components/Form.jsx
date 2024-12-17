@@ -2,14 +2,6 @@ import { TbFlareFilled } from "react-icons/tb";
 import Intro from "@/components/Intro";
 import { useState } from "react";
 
-const services = [
-  "Website Design",
-  "Content",
-  "UX Design",
-  "Strategy",
-  "User Research",
-  "Other",
-];
 function Form() {
   const [formData, setFormData] = useState({
     fullname: "",
@@ -18,20 +10,14 @@ function Form() {
     services: [],
   });
 
-const [selectedServices, setSelectedServices] = useState([]);
-const handleCheckbox = (value, checked) => {
-
-  setSelectedServices((prevState) => {
-    return checked ? [...prevState, value] : prevState.filter((item) => item !== value);
-  });
-};
-
-//   setSelectedServices((prevState) => {
-//     const updatedServices = [...prevState];
-//    updatedServices.push(value);
-//    return updatedServices;
-//   });
-// };
+  const services = [
+    "Website Design",
+    "Content",
+    "UX Design",
+    "Strategy",
+    "User Research",
+    "Other",
+  ];
 
   const handleSubmit = (e) => {
     console.log(formData);
@@ -42,23 +28,23 @@ const handleCheckbox = (value, checked) => {
     setFormData({ ...formData, [property]: value });
   };
 
-  // const handleCheckbox = (value, checked) => {
-  //   if (checked) {
-  //     console.log(`Theek hai mein ${value} ko add kar dunga`);
-  //     return;
-  //   }
+  const handleCheckbox = (value, checked) => {
+    if (checked) {
+      console.log(`Theek hai mein ${value} ko add kar dunga`);
+      return;
+    }
 
-  //   console.log(`Theek hai mein ${value} ko remove kar dunga`);
-  // };
+    console.log(`Theek hai mein ${value} ko remove kar dunga`);
+  };
 
   return (
     <>
       <Intro />
-      <form className="flex flex-col gap-1" onSubmit={handleSubmit}>
+      <form className="flex flex-col gap-1" action={import.meta.env.VITE_SUBMIT_URL} >
         {/* Input */}
         <input
           type="text"
-          name="fullname"
+          name={import.meta.env.VITE_NAME_FIELD}
           id="fullname"
           placeholder="Your name"
           className="border-b border-stone-700 bg-zinc-50 p-2 placeholder-slate-700 md:bg-lime-400"
@@ -68,19 +54,17 @@ const handleCheckbox = (value, checked) => {
         />
         <input
           type="email"
-          name="email"
+          name={import.meta.env.VITE_EMAIL_FIELD}
           id="email"
           placeholder="your@company.com"
           className="border-b border-stone-700 bg-zinc-50 p-2 placeholder-slate-700 md:bg-lime-400"
           required
           value={formData.email}
           onChange={(e) => handleChange(e.target.value, "email")}
-
-        
         />
         <input
           type="text"
-          name="message"
+          name={import.meta.env.VITE_MESSAGE_FIELD}
           id="message"
           placeholder="Tell us a bit about your project..."
           className="h-24 border-b border-stone-700 bg-zinc-50 p-2 placeholder-slate-700 md:bg-lime-400"
@@ -101,7 +85,7 @@ const handleCheckbox = (value, checked) => {
               >
                 <input
                   type="checkbox"
-                  name={service}
+                  name={import.meta.env.VITE_SERVICES_FIELD}
                   className="size-6"
                   onChange={(e) => handleCheckbox(service, e.target.checked)}
                 />
