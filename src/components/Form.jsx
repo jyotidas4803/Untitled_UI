@@ -1,81 +1,104 @@
 import { TbFlareFilled } from "react-icons/tb";
 import Intro from "@/components/Intro";
-import { useState } from "react";
+import {useForm } from "react-hook-form"
+// import { useState } from "react";
+import Utils from "@/lib/Utils";
+console.log(Utils);
 
+const services = [
+  "Website Design",
+  "Content",
+  "UX Design",
+  "Strategy",
+  "User Research",
+  "Other",
+];
 function Form() {
-  const [formData, setFormData] = useState({
-    fullname: "",
-    email: "",
-    message: "",
-    services: [],
-  });
+  // const [formData, setFormData] = useState({
+  //   fullname: "",
+  //   email: "",
+  //   message: "",
+  //   services: [],
+  // });
 
-  const services = [
-    "Website Design",
-    "Content",
-    "UX Design",
-    "Strategy",
-    "User Research",
-    "Other",
-  ];
 
-  const handleSubmit = (e) => {
-    console.log(formData);
-    e.preventDefault();
-  };
 
-  const handleChange = (value, property) => {
-    setFormData({ ...formData, [property]: value });
-  };
+  // const handleSubmit = (e) => {
+  //   console.log(formData);
+  //   e.preventDefault();
+  // };
 
-  const handleCheckbox = (value, checked) => {
-    if (checked) {
-      console.log(`Theek hai mein ${value} ko add kar dunga`);
-      return;
-    }
+  // const handleChange = (value, property) => {
+  //   setFormData({ ...formData, [property]: value });
+  // };
 
-    console.log(`Theek hai mein ${value} ko remove kar dunga`);
-  };
+  // const handleCheckbox = (value, checked) => {
+  //   if (checked) {
+  //     console.log(`Theek hai mein ${value} ko add kar dunga`);
+  //     return;
+  //   }
 
+  //   console.log(`Theek hai mein ${value} ko remove kar dunga`);
+  // };
+
+  const { register, handleSubmit, formState: { errors } } = useForm();
   return (
     <>
       <Intro />
-      <form className="flex flex-col gap-1" action={import.meta.env.VITE_SUBMIT_URL} >
+      <form className="flex flex-col gap-1" onSubmit={handleSubmit((data)=>{
+        console.log(data)
+      })}>
         {/* Input */}
         <input
           type="text"
-          name={import.meta.env.VITE_NAME_FIELD}
+          {...register("fullname",{
+            required:"tell me your name",
+          })}
           id="fullname"
           placeholder="Your name"
           className="border-b border-stone-700 bg-zinc-50 p-2 placeholder-slate-700 md:bg-lime-400"
-          required
-          value={formData.fullname}
-          onChange={(e) => handleChange(e.target.value, "fullname")}
         />
+        {errors.fullname&&(<p className="text-red-500">{errors.fullname.message}</p>)}
+
         <input
           type="email"
-          name={import.meta.env.VITE_EMAIL_FIELD}
+           {...register("email",{
+            required:"tell me your mail please",
+            pattern:{
+              value:/[\w]*@*[a-z]*\.*[\w]{5,}(\.)*(com)*(@gmail\.com)/g,
+              message:"please enter a valid email address"
+            }
+          })}
           id="email"
           placeholder="your@company.com"
           className="border-b border-stone-700 bg-zinc-50 p-2 placeholder-slate-700 md:bg-lime-400"
-          required
-          value={formData.email}
-          onChange={(e) => handleChange(e.target.value, "email")}
         />
+        {errors.fullname&&(<p className="text-red-500">{errors.email.message}</p>)}
+
         <input
           type="text"
-          name={import.meta.env.VITE_MESSAGE_FIELD}
+          {...register("message",{
+            required:"please tell us a bit about your project",
+            minLength:{
+              value:10,
+              message:"please enter atleast 10 characters"
+            },
+            maxLength:{
+              value:100,
+              message:"dont go over 100 characters"
+            }
+          })}
           id="message"
           placeholder="Tell us a bit about your project..."
           className="h-24 border-b border-stone-700 bg-zinc-50 p-2 placeholder-slate-700 md:bg-lime-400"
-          required
-          value={formData.message}
-          onChange={(e) => handleChange(e.target.value, "message")}
+
         />
+          {errors.fullname&&(<p className="text-red-500">{errors.message.message}</p>)}
+       
 
         <p className="my-5 text-zinc-800">How can we help?</p>
 
-        {/* Checkbox */}
+        {/* Checkbox*/}
         <section className="mb-12 grid grid-cols-2 gap-1 md:max-w-96">
           {services.map((service, idx) => {
             return (
@@ -85,11 +108,14 @@ function Form() {
               >
                 <input
                   type="checkbox"
-                  name={import.meta.env.VITE_SERVICES_FIELD}
+                  {...register("services",{
+                    required:"please select a service",
+                  })}
                   className="size-6"
-                  onChange={(e) => handleCheckbox(service, e.target.checked)}
-                />
+                  />
+                 
                 {service}
+                  {errors.fullname&&(<p className="text-red-500">{errors.services.message}</p>)}
               </label>
             );
           })}
